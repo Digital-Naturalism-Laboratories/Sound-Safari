@@ -119,14 +119,14 @@ function preload() {
 	sounds.push(loadSound('cicada-Quesada_gigas intro 3s.mp3'));
 	
 	
-						//11
+						//13
 	names.push("Cricket (Aclodes sp)");
 
 	pics.push(loadImage("https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Costa_Rica_DSCN7019-new_%2830761958390%29.jpg/800px-Costa_Rica_DSCN7019-new_%2830761958390%29.jpg"));
 	specs.push(loadImage("cricket aclodes.JPG"));
 	sounds.push(loadSound('cricket aclodes.mp3'));
 						
-	//11
+	//14
 	names.push("Golden Cricket(Anaxipha exigua)");
 
 	pics.push(loadImage("Golden_Cricket_-_Flickr_-_treegrow_(3) Katja Schulz from Washington D USA.jpg"));
