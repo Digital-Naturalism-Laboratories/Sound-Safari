@@ -1,14 +1,14 @@
 var font;
 var vehicles = [];
 
-var texts = ['Sound Safari','DINALAB', 'Heyyyyyy',  'Birthday', ';)'];
+var texts = ['Safari de Sonidos'];
 var nextT = 0;
 var maxChangeForce = 20;
 
 var instructions = [];
 var insText = 'Cliiiiiiiiick :)';
 
-const fontFile = "JosefinSans-Bold.ttf";
+const fontFile = "fonts/Bogle-Black.otf";
 var soundcolor;
 
 function drawSoundsAsWords() {
@@ -44,7 +44,7 @@ spectrachooser = parseInt(constrain(spectrachooser,0,topfreq));
 
 function setupSoundWords() {
 soundcolor =color(255,255,0);
-	introTextTitleSize=280*width/1920;
+	introTextTitleSize=220*width/1920; //smaller for spanish
 textFont(font);
 	var bounds = font.textBounds(texts[nextT], 0, 0, introTextTitleSize);
 	var posx = width / 2 - bounds.w / 2;
@@ -54,6 +54,7 @@ textFont(font);
 		sampleFactor: 0.1
 	});
 
+vehicles = [];
 	for (var i = 0; i < points.length; i++) {
 		var pt = points[i];
 		var vehicle = new Vehicle(pt.x, pt.y);

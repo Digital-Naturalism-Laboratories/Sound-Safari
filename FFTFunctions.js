@@ -1,34 +1,124 @@
+
+function drawEqualizer(){
+		var freqstep= (maxFreq-minFreq-1)/height;
+		colorMode(RGB);
+		//stroke(0);
+		//strokeWeight(3*width/1920);
+		noStroke();
+		fill(234, 150, 0);
+
+
+beginShape();
+vertex(width*6/12+width/40+(minFreq-64*parseInt(freqstep) - minFreq) / (maxFreq - minFreq - 1) * width/3, height*2/3);
+for (let i = minFreq; i < maxFreq; i += 64*parseInt(freqstep)) { //make our computations easier by skipping!
+				let index = i - minFreq;
+
+	let y = (1 - spectrum[index] / 255) * height*2/3;
+	let x = width*6/12+width/40+(i-64*parseInt(freqstep) - minFreq) / (maxFreq - minFreq - 1) * width/3;
+	curveVertex( x, y);
+}
+vertex(width*6/12+width/40+(maxFreq-64*parseInt(freqstep) - minFreq) / (maxFreq - minFreq - 1) * width/3, height*2/3);
+
+endShape(CLOSE);
+
+//Mirror the reverse
+beginShape();
+vertex(width*6/12+width/40-(minFreq+64*parseInt(freqstep) - minFreq) / (maxFreq - minFreq - 1) * width/3, height*2/3);
+for (let i = minFreq; i < maxFreq; i += 64*parseInt(freqstep)) { //make our computations easier by skipping!
+				let index = i - minFreq;
+
+	let y = (1 - spectrum[index] / 255) * height*2/3;
+	let x = width*6/12+width/40-(i+64*parseInt(freqstep) - minFreq) / (maxFreq - minFreq - 1) * width/3;
+	curveVertex( x, y);
+}
+vertex(width*6/12+width/40-(maxFreq+64*parseInt(freqstep) - minFreq) / (maxFreq - minFreq - 1) * width/3, height*2/3);
+
+endShape(CLOSE);
+
+	}
+	
+
+
 	//Draw the spectra all big
 	function drawSpectra() {
 
 
+let positionLevels= 1525/1920; // Relative position of the bars level
+
+
 		//Show Live Spectrogram Below
 	//	var freqstep = spectrum.length / height;
-		var freqstep= (maxFreq-minFreq-1)/height;
+		var freqstep= int((maxFreq-minFreq-1)/height);
 		//print(spectrum.length);
 
+				//DRAW HISTOGRAM 0
+				let hOffset = 6;
+				historygram.image(historygram, -hOffset, 0);
+
+				//make background color of histogram
+			historygram.fill(189,63,88);
+			historygram.stroke(189,63,88);
+
+			historygram.rect(historygram.width - hOffset, 0, historygram.width, height);
+
+
+				for (let i = minFreq; i < maxFreq; i += 1*parseInt(freqstep)) { //make our computations easier by skipping!
+					
+		
+					colorMode(HSB);
+						
+		
+		
+					
+					let index = i - minFreq;
+					//	let index= i;//(i - minFreq) / (maxFreq - minFreq - 1) * height;
+					let intensity = (spectrum[index] - averageSpectrum[index]);
+					//var hue = intensity;
+					var hue = 240 - map(intensity, 0, 255, 0, 360);
+					historygram.stroke(hue, intensity, 255 - intensity, intensity/255*3);
+					//fill(hue,255,255);
+		
+					//		historygram.stroke(255-intensity,255-intensity/2,intensity);
+					//historygram.fill(255-intensity,255-intensity/2,intensity,intensity);	
+					let y = index / parseInt(freqstep);
+		
+					//Kid Mode
+					//	historygram.circle(historygram.width-1,height- y, intensity/10);
+					//historygram.strokeWeight(4);
+					
+					//High Resolution Mode
+					//historygram.point(historygram.width-hOffset,height- y);
+					historygram.line(historygram.width - hOffset, height - y, historygram.width, height - y);
+					
+				}
+				//fill(255);
+				fill(0);
+				image(historygram, 0, 0, width * positionLevels, height);
+
 		//DRAW MIC SPECTRUM
+		colorMode(RGB);
 				stroke(0);
 		strokeWeight(3*width/1920);
 				fill(255, 255, 0, 150);
+
 		
 		beginShape();
-				vertex(width * 3 / 4, height);
+		curveVertex(width * positionLevels, height);
 		for (let i = minFreq; i < maxFreq; i += 8*parseInt(freqstep)) { //make our computations easier by skipping!
 						let index = i - minFreq;
 
-			let x = (1 - spectrum[index] / 255) * width * 1 / 4;
+			let x = (1 - spectrum[index] / 255) * width * (1-positionLevels);
 			let y = (i - minFreq) / (maxFreq - minFreq - 1) * height;
-			vertex(width - x, height - y);
+			curveVertex(width - x, height - y);
 		}
-		vertex(width * 3 / 4, 0);
+		curveVertex(width * positionLevels, 0);
 		
 		textAlign(RIGHT);
 					textSize(30*width/1920);
 	//	noStroke();
 
-		text("High Frequencies \n(5,000Hz)", width-20, 40);
-				 		text("Low Frequencies\n(100Hz)", width-20, height-80);
+		//text("ALTA Frecuencia \n(5,000Hz)", width-20, 40);
+		//		 		text("BAJA Frecuencia\n(100Hz)", width-20, height-80);
 
 				 textAlign(CENTER);
 
@@ -53,35 +143,8 @@
 
 */
 
-		//DRAW HISTORYGRAM 0
-		let hOffset = 6;
-		historygram.image(historygram, -hOffset, 0);
-		for (let i = minFreq; i < maxFreq; i += 1*parseInt(freqstep)) { //make our computations easier by skipping!
-			let index = i - minFreq;
-			//	let index= i;//(i - minFreq) / (maxFreq - minFreq - 1) * height;
-			let intensity = (spectrum[index] - averageSpectrum[index]);
-			//var hue = intensity;
-			var hue = 240 - map(intensity, 0, 255, 0, 360);
-			historygram.stroke(hue, intensity, 255 - intensity);
-			//fill(hue,255,255);
+//text("WIDTH "+historygram.width+"   height "+historygram.height, width/2, 20);
 
-			//		historygram.stroke(255-intensity,255-intensity/2,intensity);
-			//historygram.fill(255-intensity,255-intensity/2,intensity,intensity);	
-			let y = index / parseInt(freqstep);
-
-			//Kid Mode
-			//	historygram.circle(historygram.width-1,height- y, intensity/10);
-			//historygram.strokeWeight(4);
-			
-			//High Resolution Mode
-			//historygram.point(historygram.width-hOffset,height- y);
-			historygram.line(historygram.width - hOffset, height - y, historygram.width, height - y);
-
-
-		}
-		//fill(255);
-		fill(0);
-		image(historygram, 0, 0, width * 3 / 4, height);
 
 	}
 	//End Draw Spectra Function

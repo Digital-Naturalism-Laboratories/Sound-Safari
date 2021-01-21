@@ -1,28 +1,34 @@
 var bbox;
 
 function drawIntro() {
-	drawSpectra();
 	noStroke();
 
 	textSize(30*width/1920);
-	text("Spectrograms", width / 2, 20*width/1920);
+	//text("Espectogramas", width / 2, 20*width/1920);
 
 	textSize(20*width/1920);
 	//ellipse(width / 2, height / 2+40, 80,50);
+	image(infoBlue, 0, 0, width, height);
+
+	drawSpectra();
+
+	
 	noStroke();
+
 	textAlign(CENTER, TOP);
-
 	if (frogclicked) {
-		text("Spectrograms show sounds as a picture.\n \n" +
-			"HIGH frequency sounds are shown at the top. ↑\n" +
-			"LOW frequency sounds are at the bottom. ↓\n" +
-			"LOUD frequencies are shown in different colors.\n\n" +
-			"When you click the frog, do you see how it makes a \nunique pattern of frequencies?\n\n" +
+		image(infoImg[1], 0, 0, width, height);
 
-			"Try singing or whistling into your microphone!\n\n" , width / 2,  60*width/1920);
+		/*text("Los espectrogramas muestran los sonidos como una imagen. \n \n" +
+			"Los sonidos de ALTA frecuencia se muestran en la parte superior. ↑\n" +
+			"Los sonidos de BAJA frecuencia están en la parte inferior.  ↓\n" +
+			"Las frecuencias ALTAS se muestran en diferentes colores. \n\n" +
+			"Al hacer clic en la rana,\n ¿ves cómo crea un patrón único de frecuencias? \n\n" +
+
+			"Ahora intenta cantar o silbar en tu micrófono.\n ¡Observa el patrón de frecuencias que vas creando!" , width / 2,  60*width/1920);
 
 
-
+*/
 		let rectCorners = 20;
 
 
@@ -30,65 +36,82 @@ function drawIntro() {
 		let rectheight = 60;
 
 		fill(100, 200, 255, 150);
-textAlign(CENTER,CENTER);
 
 		//	rect(width/2-rectwidth,height-60-rectheight, rectwidth,rectheight,rectCorners);
-		let textString = 'Play the Game!';
+		let textString = '¡Juega YA!';
 		bbox = font.textBounds(textString, width / 2, height - 80*width/1920, 60*width/1920);
 
 		stroke(250, 200, 200, 200);
 		strokeWeight(3);
 		colorMode(HSB);
 		soundcolor = color(fft.getEnergy(100, 3000), 30 + fft.getEnergy(100, 3000), 200, .5);
-		if (mouseX > bbox.x - 20 && mouseY > bbox.y && mouseX < bbox.x - 20 + bbox.w + 30 && mouseY < bbox.y + bbox.h + 20) {
-			fill(100, 100);
-			strokeWeight(8);
+		
+		//Juega Ya Button
+		if (mouseX > width/3 && mouseY > height*5/6 && mouseX < width/2 && mouseY < height*15/16) {
+		//	fill(100, 100);
+		//	strokeWeight(8);
+		
+			//colorMode(RGB);
+			//tint(0,240, 0,100); // Tint blue and set transparency
+			image(jeugayaButtTint, 0, 0, width, height);
+
 		} else {
-			fill(soundcolor);
+			//fill(soundcolor);
+			image(juegaYabutton, 0, 0, width, height);
 		}
-		rect(bbox.x - 20, bbox.y, bbox.w + 30, bbox.h + 20, rectCorners);
+	
+	//	image(tunfrogimg, width / 2 - tunwidth/2, height / 2 - tunheight/2, tunwidth, tunheight);
+	
+		//rect(bbox.x - 20, bbox.y, bbox.w + 30, bbox.h + 20, rectCorners);
 		//	fill(100,200,255,150);
 		//							soundcolor = color( fft.getEnergy(100, 3000), 30 + fft.getEnergy(100, 3000), 200,.5);
 
-		fill(0, 0, 0, .7);
+		//fill(0, 0, 0, .7);
 
-		textSize(60*width/1920);
-		strokeWeight(1);
+		//textSize(60*width/1920);
+		//strokeWeight(1);
 
-		text(textString, width / 2, height - 80*width/1920);
+		//text(textString, width / 2, height - 80*width/1920);
 
 		colorMode(RGB);
 
 	} else {
-		text("In thick jungles, scientists cannot always see the animals they are looking for. \n" +
-			"Instead, they often have to search for their animals by the sounds they make \n \n" +
-			"To do this, they use a tool called a spectrogram.\n \n" ,  width / 2, 60*width/1920);
+		/*text("En selvas densas con vegetación, los científicos no siempre pueden\n ver los animales que están buscando.  \n" +
+			"En cambio, a menudo tienen que buscar a los animales por los sonidos que emiten. \n \n" +
+			"Para hacer esto, usan una herramienta llamada espectrograma." , width / 2, 60*width/1920);
+			*/
+			image(infoImg[0], 0, 0, width, height);
+
 	}
 
 let tunwidth=300*width/1920;
 	let tunheight=170*width/1920;
 	
 	if(sound.isPlaying()){
-		push();
-		translate(width/2, height/2);
-		drawSpectrumCircleFrog();
-		pop();
+	//	push();
+	//	translate(width/2, height/2);
+	//	drawSpectrumCircleFrog();
+	//	pop();
 	}
 	
-	image(tunfrogimg, width / 2 - tunwidth/2, height / 2 - tunheight/2, tunwidth, tunheight);
+	//image(tunfrogimg, width / 2 - tunwidth/2, height / 2 - tunheight/2, tunwidth, tunheight);
 
-	if (mouseX > width / 2 - tunwidth/2 && mouseY > height / 2 - tunheight/2 && mouseX < width / 2 - tunwidth/2 +tunwidth && mouseY < height / 2 - tunheight/2+tunwidth) {
-		push();
-		tint(0,240, 0,100); // Tint blue and set transparency
-		image(tunfrogimg, width / 2 - tunwidth/2, height / 2 - tunheight/2, tunwidth, tunheight);
-		pop();
+	if (mouseX > width / 4 && mouseY > height / 2 && mouseX < width / 2 && mouseY < height / 2 - tunheight/2+tunwidth) {
+		image(frogButtTint,0,0,width,height);
+
+	//	image(tunfrogimg, width / 2 - tunwidth/2, height / 2 - tunheight/2, tunwidth, tunheight);
+	//image(infoFrog, 0, 0, width, height);
+
 	}
-			textSize(30*width/1920);
+	else{image(frogButt, 0, 0, width, height);}
+	
+
+	//		textSize(30*width/1920);
 
 	if (!frogclicked) {
-		text(			"Click the Tungara Frog to start!", width/2, height/2+tunheight);
+		//text(			"¡Haz clic en la rana Túngara para comenzar!", width/2, height/2+tunheight);
 	} else{
-				text(			"Click below when you are ready to test \nhow well you can recognize Spectrograms!", width/2, height/2+tunheight);
+			//	text(			"Cuando estés listo, haz clic a continuación \n para analizar qué tan bien puedes reconocer\n los espectrogramas de sonidos de animales. ", width/2, height/2+tunheight);
 
 	}
 	
