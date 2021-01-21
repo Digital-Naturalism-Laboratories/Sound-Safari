@@ -1,7 +1,7 @@
 # Safari De Sonidos
  Spanish Language version of sound safari
  
- https://digital-naturalism-laboratories.github.io/Safari-De-Sonidos/. 
+https://digital-naturalism-laboratories.github.io/Sound-Safari/
 
 Sound Safari por Andrew Quitmeyer de Digital Naturalism Laboratories
 www.dinalab.net
